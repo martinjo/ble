@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name            = 'rkBLE'
-  s.version         = '0.0.1'
+  s.version         = ’0.0.2’
   s.platform        = :ios, '6.0'
   s.license         = { :type => 'MIT', :file => 'LICENSE' }
 
@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.homepage        = 'https://github.com/ruiking/ble'
   s.author          = { 'ruiking' => 'dujun@ruiking.com' }
 
-  s.source          = { :git => 'https://github.com/martinjo/ble.git' }
+  s.source          = { :git => 'https://github.com/martinjo/ble.git', :branch => ’master’ }
   s.source_files    = 'ble-utility/RKBluetooth/**/*.{h,m}'
   s.requires_arc    = true
 
