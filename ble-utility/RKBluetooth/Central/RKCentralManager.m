@@ -191,7 +191,7 @@
         
     }
     //FIXME:ERROR
-    DebugLog(@"Central %@ changed to %d",central,(int)central.state);
+    //DebugLog(@"Central %@ changed to %d",central,(int)central.state);
     
 }
 //- (void)centralManager:(CBCentralManager *)central willRestoreState:(NSDictionary *)dict
@@ -228,7 +228,7 @@
     rkperipheral.RSSI = RSSI;
     _onPeripheralUpdated(rkperipheral);
     
-    DebugLog(@"%@ on %@ thread",peripheral, [NSThread isMainThread]?@"Main":@"Other");
+  //  DebugLog(@"%@ on %@ thread",peripheral, [NSThread isMainThread]?@"Main":@"Other");
 }
 
 #pragma mark Monitoring Connections with Peripherals

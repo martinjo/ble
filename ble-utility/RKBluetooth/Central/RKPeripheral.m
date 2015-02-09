@@ -66,7 +66,7 @@
         }
         @catch (NSException *exception) {
             // ios6
-            NSString * uuidStr =CFBridgingRelease(CFUUIDCreateString(NULL,_peripheral.UUID));
+            NSString * uuidStr = _peripheral.identifier.UUIDString;
             self.identifier = [[NSUUID alloc] initWithUUIDString: uuidStr];
             NSLog(@"solved");
         }
@@ -157,12 +157,18 @@
 }
 #pragma mark Setting Notifications for a Characteristic’s Value
 
+-(void)setNotifyBlock:(RKCharacteristicChangedBlock)onUpdated forCharacteristic:(CBCharacteristic *)characteristic
+{
+    self.characteristicsNotifyBlocks[characteristic.UUID] = onUpdated;
+}
+
 - (void)setNotifyValue:(BOOL)enabled forCharacteristic:(CBCharacteristic *)characteristic onUpdated:(RKCharacteristicChangedBlock) onUpdated
 {
     if (enabled)
     {
-        NSAssert(onUpdated!=nil, @"block onUpdated must'not be nil!");
-        self.characteristicsNotifyBlocks[characteristic.UUID] = onUpdated;
+        //NSAssert(onUpdated!=nil, @"block onUpdated must'not be nil!");
+        if(onUpdated)
+            self.characteristicsNotifyBlocks[characteristic.UUID] = onUpdated;
     }else
     {
         [self.characteristicsNotifyBlocks removeObjectForKey: characteristic.UUID];
@@ -183,10 +189,11 @@
 {
     if (peripheral == _peripheral)
     {
+        self.services = peripheral.services;
         self.didFinishServiceDiscovery(error);
         self.didFinishServiceDiscovery = nil;
     }
-    DebugLog(@"%p & %p",peripheral,_peripheral);
+  //  DebugLog(@"%p & %p",peripheral,_peripheral);
 }
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverIncludedServicesForService:(CBService *)service error:(NSError *)error
 {

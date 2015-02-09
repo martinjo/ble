@@ -45,6 +45,7 @@
 
 #pragma mark Setting Notifications for a Characteristic’s Value
 
+-(void)setNotifyBlock:(RKCharacteristicChangedBlock)onUpdated forCharacteristic:(CBCharacteristic *)characteristic;
 - (void)setNotifyValue:(BOOL)enabled forCharacteristic:(CBCharacteristic *)characteristic onUpdated:(RKCharacteristicChangedBlock) onUpdated;
 
 #pragma mark ReadRSSI
