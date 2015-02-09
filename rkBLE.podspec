@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.homepage        = 'https://github.com/ruiking/ble'
   s.author          = { 'ruiking' => 'dujun@ruiking.com' }
 
-  s.source          = { :git => 'https://github.com/martinjo/ble.git', :branch => ’master’ }
+  s.source          = { :git => 'https://github.com/martinjo/ble.git' }
   s.source_files    = 'ble-utility/RKBluetooth/**/*.{h,m}'
   s.requires_arc    = true
 
