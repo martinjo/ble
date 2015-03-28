@@ -149,7 +149,8 @@
             case CBCentralManagerStatePoweredOff:
             {
                 [self clearPeripherals];
-                _onPeripheralUpdated(nil);
+                if(_onPeripheralUpdated)
+                    _onPeripheralUpdated(nil);
                 break;
             }
                 
@@ -166,7 +167,7 @@
             }
                 
             case CBCentralManagerStatePoweredOn:
-            {
+                {
                 if (_onPeripheralUpdated)
                 {
                     _onPeripheralUpdated(nil);
@@ -178,7 +179,8 @@
             case CBCentralManagerStateResetting:
             {
                 [self clearPeripherals];
-                _onPeripheralUpdated(nil);
+                if(_onPeripheralUpdated)
+                    _onPeripheralUpdated(nil);
                 break;
             }
             case CBCentralManagerStateUnsupported:
