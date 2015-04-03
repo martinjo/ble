@@ -13,6 +13,7 @@
 
 
 @interface RKCentralManager : NSObject
+@property (nonatomic,strong) CBCentralManager * manager;
 @property (atomic,strong,readonly) NSMutableArray * peripherals;
 @property(readonly) CBCentralManagerState state;
 @property (nonatomic,copy)RKObjectChangedBlock onStateChanged;

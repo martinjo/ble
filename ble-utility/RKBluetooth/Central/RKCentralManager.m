@@ -12,7 +12,11 @@
 
 
 @interface RKCentralManager()<CBCentralManagerDelegate>
-@property (nonatomic,strong) CBCentralManager * manager;
+{
+    CBCentralManager *_manager;
+    CBCentralManagerState _previousState;
+}
+
 @property (nonatomic,copy) RKPeripheralUpdatedBlock onPeripheralUpdated;
 
 //@property (nonatomic,strong) NSArray * scanningServices;
@@ -64,11 +68,18 @@
     self.connectedPeripherals = [NSMutableArray arrayWithCapacity:3];
     self.connectionFinishBlocks = [NSMutableDictionary dictionaryWithCapacity:3];
     self.disconnectedBlocks =  [NSMutableDictionary dictionaryWithCapacity:3];
+    _manager = nil;
 }
 - (CBCentralManagerState)state
 {
     return self.manager.state;
 }
+
+-(void)setManager:(CBCentralManager *)manager
+{
+    _manager = manager;
+}
+
 - (CBCentralManager *) manager
 {
     @synchronized(_manager)
@@ -88,6 +99,7 @@
     }
     return _manager;
 }
+
 - (void)dealloc
 {
     _manager.delegate = nil;
@@ -116,7 +128,9 @@
 }
 - (void)cancelPeripheralConnection:(RKPeripheral *)peripheral onFinished:(RKPeripheralConnectionBlock) ondisconnected
 {
-    self.disconnectedBlocks[peripheral.identifier] = ondisconnected;
+    if(ondisconnected)
+        self.disconnectedBlocks[peripheral.identifier] = ondisconnected;
+    
     [self.manager cancelPeripheralConnection:peripheral.peripheral];
 }
 #pragma mark Retrieving Lists of Peripherals
@@ -144,11 +158,15 @@
 {
     if (central == self.manager)
     {
-        switch ([central state])
+        switch (central.state)
         {
             case CBCentralManagerStatePoweredOff:
             {
                 [self clearPeripherals];
+                // If bluetooth was powered off we need to take down the BTLE stack
+                if(_previousState != CBCentralManagerStatePoweredOff)
+                    self.manager = nil;
+                
                 if(_onPeripheralUpdated)
                     _onPeripheralUpdated(nil);
                 break;
@@ -190,7 +208,7 @@
         {
             _onStateChanged(nil);
         }
-        
+        _previousState = central.state;
     }
     //FIXME:ERROR
     //DebugLog(@"Central %@ changed to %d",central,(int)central.state);
