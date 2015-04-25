@@ -246,6 +246,7 @@
         }
     }
     rkperipheral.RSSI = RSSI;
+    rkperipheral.advertisementData = advertisementData;
     _onPeripheralUpdated(rkperipheral);
     
   //  DebugLog(@"%@ on %@ thread",peripheral, [NSThread isMainThread]?@"Main":@"Other");

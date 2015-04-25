@@ -12,6 +12,7 @@
 
 @interface RKPeripheral : NSObject
 @property (nonatomic,strong,readonly) CBPeripheral * peripheral;
+@property (nonatomic) NSDictionary * advertisementData;
 @property (nonatomic) NSArray * services;
 @property(nonatomic,strong) NSUUID *identifier;
 @property(nonatomic, strong) NSString *name;
